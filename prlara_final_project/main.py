@@ -1,10 +1,21 @@
+'''
+Pedro Ramirez
+Class: CS 521 - Spring 1
+Date: 3/3/2023
+Final Project
+Description:
+Main file for the bank application.
+It will allow the user to create an account, login, deposit, withdraw,
+and check balance. It will create instances of the User class.
+Sqlite3 is used to store the user information.
+'''
+
 import sqlite3
 import os
 from user import User
 
 # Connect to the database
-conn = sqlite3.connect(':memory:')
-
+conn = sqlite3.connect('accounts.db')
 c = conn.cursor()
 
 # Create a table for accounts
@@ -23,8 +34,8 @@ c.execute(
 )
 
 
-# Function to add a new account
 def add_account(user) -> bool:
+    '''Add a new account to the database.'''
     with conn:
         try:
             c.execute(
@@ -47,6 +58,7 @@ def add_account(user) -> bool:
 
 
 def get_user(username, password) -> list:
+    '''Get the user from the database.'''
     c.execute(
         "SELECT * FROM accounts WHERE username = ? AND password = ?",
         (username, password),
@@ -56,6 +68,7 @@ def get_user(username, password) -> list:
 
 
 def deposit(user):
+    '''Deposit money to the account.'''
     while True:
         try:
             amount = float(input("Enter the amount to deposit: "))
@@ -71,11 +84,12 @@ def deposit(user):
         (new_balance, user[0][0]),
     )
     conn.commit()
-    print(f"Your previous balance was: {previous_balance}")
-    print(f"Your new balance is: {new_balance}")
+    print(f"\n--- Your previous balance was: {previous_balance} ---")
+    print(f"--- Your new balance is: {new_balance} ---\n")
 
 
 def withdraw(user):
+    '''Withdraw money from the account.'''
     while True:
         try:
             amount = float(input("Enter the amount to withdraw: "))
@@ -92,14 +106,16 @@ def withdraw(user):
     )
     conn.commit()
     print(f"\n---- Your previous balance was: {previous_balance} ----")
-    print(f"---- Your new balance is: {new_balance} ----")
+    print(f"---- Your new balance is: {new_balance} ----\n")
 
 
 def check_balance(user):
+    '''Check the balance of the account.'''
     print(f"\n---- Your balance is: {user[0][2]} ----\n")
 
 
 def transactions_loop(username, password):
+    '''Loop for the transactions menu.'''
     while True:
         print("Select an option:")
         print("1. Deposit")
@@ -128,6 +144,7 @@ def transactions_loop(username, password):
 
 
 def greetings(new_user):
+    '''Print a greeting message in several lines.'''
     print("\n* Account created successfully!")
     print(f"* Your new account number is: {user['account']}")
     print(new_user.bank_info())
@@ -135,8 +152,9 @@ def greetings(new_user):
     print('You can now make transactions!\n')
 
 
-# Main program loop
+# starting point of the program
 if __name__ == "__main__":
+    # process to import existing users from a text file
     table_properties = [
         'account',
         'name',
@@ -148,18 +166,19 @@ if __name__ == "__main__":
     ]
     existing_users = {}
     path = os.path.join(os.path.dirname(__file__), '../existing_users.txt')
-    db = open(path, 'r')
-    for line in db:
+    existing_users_file = open(path, 'r')
+    for line in existing_users_file:
         line = line.strip().split(',')
         index = 0
-        for value in range(7):
+        for value in range(len(line)):
             existing_users[table_properties[index]] = line[value]
             index += 1
 
         add_account(existing_users)
 
+    # main loop to run the program
     while True:
-        print('---- Welcome to the Boston bank! ----')
+        print('\n---- Welcome to the Boston bank! ----')
         print("Select an option:")
         print("1. Sign up")
         print("2. Sign in")
@@ -188,10 +207,11 @@ if __name__ == "__main__":
                     break
 
         elif choice == "3":
+            print("\n---- Thank you for using the Boston bank! ----")
             break
 
         else:
             print("Invalid choice. Please enter a number from 1-3.")
 
-    db.close()
+    existing_users_file.close()
 conn.close()
