@@ -34,7 +34,7 @@ c.execute(
 )
 
 
-def add_account(user) -> bool:
+def save_account_to_db(user) -> bool:
     '''Add a new account to the database.'''
     with conn:
         try:
@@ -147,12 +147,20 @@ def greetings(new_user):
     '''Print a greeting message in several lines.'''
     print("\n* Account created successfully!")
     print(f"* Your new account number is: {user['account']}")
-    print(new_user.bank_info())
+    print(new_user._bank_info())
     print(new_user)
     print('You can now make transactions!\n')
 
 
-# starting point of the program
+def username_duplicates(username):
+    '''Check if the username already exists.'''
+    c.execute("SELECT username FROM accounts WHERE username = ?", (username,))
+    return c.fetchall()
+
+
+# --------------------------------------------------------------------------------
+#                        starting point of the program
+# --------------------------------------------------------------------------------
 if __name__ == "__main__":
     # process to import existing users from a text file
     table_properties = [
@@ -173,8 +181,8 @@ if __name__ == "__main__":
         for value in range(len(line)):
             existing_users[table_properties[index]] = line[value]
             index += 1
-
-        add_account(existing_users)
+        # add existing users to the database
+        save_account_to_db(existing_users)
 
     # main loop to run the program
     while True:
@@ -187,9 +195,21 @@ if __name__ == "__main__":
 
         if choice == "1":
             new_user = User()
-            new_user.create_account()
-            user = new_user.save_account()
-            if add_account(user):
+
+            while True:
+                new_user.create_account()
+                user = new_user.get_instance_attributes()
+
+                # check if the username already exists
+                duplicates = username_duplicates(user['username'])
+                if len(duplicates) > 0:
+                    print("--- username already exists. ---")
+                    print("--- Please try again.\n")
+                    continue
+                else:
+                    break
+
+            if save_account_to_db(user):
                 greetings(new_user)
                 transactions_loop(user['username'], user['password'])
 

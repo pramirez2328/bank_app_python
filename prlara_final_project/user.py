@@ -46,7 +46,7 @@ class User(Bank):
         self.password = self.add_password()
         self.account_number = uuid.uuid4().hex[:8] + str(User.__incremental_id)
 
-    def save_account(self) -> dict:
+    def get_instance_attributes(self) -> dict:
         '''
         return a dictionary with the account information
         to be saved using sqlite3.

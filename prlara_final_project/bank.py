@@ -23,7 +23,7 @@ class Bank:
         self.balance = balance
         self.account_number = account_number
 
-    def bank_info(self) -> str:
+    def _bank_info(self) -> str:
         '''
         customized string representation
         of the bank information.

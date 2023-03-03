@@ -41,7 +41,7 @@ class TestFunctions(unittest.TestCase):
         Check if the last name is a string
         and if it is equal to Lara.
         '''
-        self.assertEqual(last, 'Lara')
+        self.assertEqual(last, 'Ramirez')
         assert isinstance(last, str)
 
     def test_add_age(self):
@@ -49,7 +49,7 @@ class TestFunctions(unittest.TestCase):
         Check if the age is an integer
         and if it is equal to 30.
         '''
-        self.assertEqual(age, 30)
+        self.assertEqual(age, 40)
         assert isinstance(age, int)
 
     def test_initial_amount(self):
