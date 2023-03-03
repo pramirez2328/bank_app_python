@@ -1,9 +1,11 @@
 # bank_app_python
+
 Bank program to emulate an actual ATM machine
 
 - create by Pedro Ramirez
 - March 3, 2023
 - CS 521 - spring 1
+- GitHub repository link https://github.com/pramirez2328/bank_app_python
 
 **Boston University**
 
