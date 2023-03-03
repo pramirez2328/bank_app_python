@@ -100,13 +100,17 @@ def withdraw(user):
 
     previous_balance = user[0][2]
     new_balance = previous_balance - amount
-    c.execute(
-        "UPDATE accounts SET balance = ? WHERE account_number = ?",
-        (new_balance, user[0][0]),
-    )
-    conn.commit()
-    print(f"\n---- Your previous balance was: {previous_balance} ----")
-    print(f"---- Your new balance is: {new_balance} ----\n")
+    if new_balance < 0:
+        print("\n--- Error", "Insufficient funds")
+        print(f"--- Your balance is: {previous_balance} ---\n")
+    else:
+        c.execute(
+            "UPDATE accounts SET balance = ? WHERE account_number = ?",
+            (new_balance, user[0][0]),
+        )
+        conn.commit()
+        print(f"\n---- Your previous balance was: {previous_balance} ----")
+        print(f"---- Your new balance is: {new_balance} ----\n")
 
 
 def check_balance(user):
@@ -163,7 +167,7 @@ def username_duplicates(username):
 # --------------------------------------------------------------------------------
 if __name__ == "__main__":
     # process to import existing users from a text file
-    table_properties = [
+    table_properties = (
         'account',
         'name',
         'balance',
@@ -171,7 +175,7 @@ if __name__ == "__main__":
         'email',
         'username',
         'password',
-    ]
+    )
     existing_users = {}
     path = os.path.join(os.path.dirname(__file__), '../existing_users.txt')
     existing_users_file = open(path, 'r')

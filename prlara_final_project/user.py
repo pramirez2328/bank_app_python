@@ -38,8 +38,9 @@ class User(Bank):
         '''Create a new account and assign it to the attributes.'''
         name = self.add_name()
         last = self.add_last()
+        fullname = [name, last]
         self.balance = self.initial_amount()
-        self.holder_name = self.__add__(name, last)
+        self.holder_name = self.__add__(fullname)
         self.age = self.add_age()
         self.email = self.add_email()
         self.username = self.add_username()
@@ -166,9 +167,9 @@ class User(Bank):
                 break
         return password
 
-    def __add__(self, name, last):
+    def __add__(self, fullname) -> str:
         '''Concatenate the name and last name.'''
-        return name + ' ' + last
+        return fullname[0] + ' ' + fullname[1]
 
     def __validate_email(self, email) -> bool:
         '''Validate the email using regex.'''
