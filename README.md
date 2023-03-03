@@ -5,7 +5,7 @@ Bank program to emulate an actual ATM machine
 - March 3, 2023
 - CS 521 - spring 1
 
-**Boston Univeristy**
+**Boston University**
 
 The ATM program, which is a simple yet effective interface that mimics the functionalities of a real bank ATM. The program allows you to perform regular transactions such as adding or withdrawing money from your existing account.
 
