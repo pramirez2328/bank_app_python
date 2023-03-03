@@ -1,10 +1,10 @@
-- Welcome to the ATM Project!
+# Welcome to the ATM Project!
 - create by Pedro Ramirez
 - March 3, 2023
-- CS 521
-- Boston Univeristy
+- CS 521 - spring 1
+** Boston Univeristy **
 
-The ATM program, which is a simple yet effective interface that mimics the functionalities of a real bank ATM. The ATM program allows you to perform regular transactions such as adding or withdrawing money from your existing account.
+The ATM program, which is a simple yet effective interface that mimics the functionalities of a real bank ATM. The program allows you to perform regular transactions such as adding or withdrawing money from your existing account.
 
 To ensure a high level of security and privacy, the program requires you to provide personal information including your name, last name, age, email, initial balance, username, and password. Once you have successfully logged in, you will be able to add, withdraw, and check your balances.
 
