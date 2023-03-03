@@ -31,17 +31,12 @@ class User(Bank):
     def create_account(self) -> None:
         name = self.add_name()
         last = self.add_last()
-        initial_amount = self.initial_amount()
-        age = self.add_age()
-        email = self.add_email()
-        username = self.add_username()
-        password = self.add_password()
-        self.balance = initial_amount
-        self.holder_name = f'{name} {last}'
-        self.age = age
-        self.email = email
-        self.username = username
-        self.password = password
+        self.balance = self.initial_amount()
+        self.holder_name = self.__add__(name, last)
+        self.age = self.add_age()
+        self.email = self.add_email()
+        self.username = self.add_username()
+        self.password = self.add_password()
         self.account_number = uuid.uuid4().hex[:8] + str(User.__incremental_id)
 
     def save_account(self) -> Dict:
@@ -96,7 +91,7 @@ class User(Bank):
                 print('Error', 'Amount must be greater than 0')
             else:
                 break
-        return amount
+        return float(amount)
 
     def add_age(self) -> int:
         while True:
@@ -111,7 +106,7 @@ class User(Bank):
             except TypeError:
                 print(
                     'Error',
-                    'Age must be greater than 18,' + ' you are not eligible to open an account',
+                    'You must be at least 18 years old to open an account',
                 )
             else:
                 break
@@ -121,7 +116,7 @@ class User(Bank):
         while True:
             email = input('Enter your email: ')
             try:
-                if '@' not in email or '.com' not in email:
+                if self.__validate_email(email) is False:
                     raise ValueError
             except ValueError:
                 print('Error', 'Enter a valid email')
@@ -153,18 +148,25 @@ class User(Bank):
                 break
         return password
 
-    def user_login(self, username, password) -> bool:
-        if self.username == username and self.password == password:
+    def __add__(self, name, last):
+        return name + ' ' + last
+
+    def __validate_email(self, email) -> bool:
+        import re
+
+        regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b'
+        if re.match(regex, email):
             return True
         else:
             return False
 
-    def user_info(self) -> str:
+    def __repr__(self) -> str:
         return f'\
-        Account number: {self.account_number}\n\
-        Name: {self.holder_name}\n\
-        Balance: {self.balance}\n\
-        Age: {self.age}\n\
-        Email: {self.email}\n\
-        Username: {self.username}\n\
-        Password: {self.password}'
+     Your account information:\n\
+     Account number: {self.account_number}\n\
+     Name: {self.holder_name}\n\
+     Balance: {self.balance}\n\
+     Age: {self.age}\n\
+     Email: {self.email}\n\
+     Username: {self.username}\n\
+     Password: {self.password}\n'

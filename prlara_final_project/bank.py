@@ -12,22 +12,12 @@ __repr__()
 
 
 class Bank:
-    accounts = list()
+    TITLE = 'The Boston Bank'
+    ADDRESS = '123 Main Street, Boston, MA 02134'
 
-    def __init__(self, balance=0, account_number=0) -> None:
+    def __init__(self, balance=0.0, account_number=0) -> None:
         self.balance = balance
         self.account_number = account_number
 
-    def deposit(self, amount) -> None:
-        self.balance += amount
-
-    def withdraw(self, amount) -> None:
-        self.balance -= amount
-
-    def check_balance(self) -> int:
-        return self.balance
-
-    def __repr__(self) -> str:
-        return "Acount number: {},\nHolder name: {},\nBalance: {}".format(
-            self.account_number, self.holder_name, self.balance
-        )
+    def bank_info(self) -> str:
+        return f'---- {self.TITLE} ----\n{self.ADDRESS}\n'
