@@ -39,7 +39,7 @@ class TestFunctions(unittest.TestCase):
     def test_add_last(self):
         '''
         Check if the last name is a string
-        and if it is equal to Lara.
+        and if it is equal to Ramirez.
         '''
         self.assertEqual(last, 'Ramirez')
         assert isinstance(last, str)
@@ -47,7 +47,7 @@ class TestFunctions(unittest.TestCase):
     def test_add_age(self):
         '''
         Check if the age is an integer
-        and if it is equal to 30.
+        and if it is equal to 40.
         '''
         self.assertEqual(age, 40)
         assert isinstance(age, int)
